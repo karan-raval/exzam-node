@@ -1,19 +1,16 @@
 import React, { useState } from "react";
-import Header from "../Components/Header";
-import Footer from "../Components/Footer";
-import "../assets/css/Login.css";
-import { Link, useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
-import Popover from "./Popover";
-import "react-toastify/dist/ReactToastify.css";
+import { Link, useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import  {jwtDecode}  from 'jwt-decode';
 
 const Login = () => {
   const [state, setState] = useState({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
 
-  const navigate = useNavigate();
+  const navigate = useNavigate(); 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,105 +19,87 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+    console.log(state);
     try {
-      const response = await fetch(`http://localhost:5010/login`, {
-        method: "POST",
+      const response = await fetch('http://localhost:5110/user/login', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(state),
       });
-  
+
+      const result = await response.json();
       if (response.ok) {
-        const result = await response.json();
+        toast.success(result.msg);
         const token = result.token;
-        const userId = result.userId;
-  
-        localStorage.setItem("Token", token);
-        toast.success("Login Successful!");
-        setTimeout(() => {
-          navigate("/");
-        }, 4000); // Increased delay to ensure toast is visible
+
+        sessionStorage.setItem("token", token);
+
+        const decoded = jwtDecode(token); 
+
+        if (decoded.role === 'admin') {
+          setTimeout(() => {
+            navigate('/admin');
+          }, 3000);
+        } else {
+          setTimeout(() => {
+            navigate('/products');
+          }, 3000);
+        }
       } else {
-        const errorData = await response.json();
-        toast.error(errorData.msg);
+        toast.error(result.msg);
       }
     } catch (error) {
-      console.error("Error during login:", error);
-      toast.error("Error during login!");
+      console.error('Error:', error);
+      toast.error('An error occurred while logging in.');
     }
   };
-  
 
   return (
     <>
-      <Header />
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-
-      <section className="s-content--narrow">
-        <div className="comments-wrapp">
-          <div id="comments" className="row">
-            <div className="col-full">
-              <div className="respond">
-                <h3 className="h2">Login </h3>
-
-                <form onSubmit={handleSubmit}>
-                  <fieldset>
-                    <div className="form-field">
+      <ToastContainer />
+      <div className="container-scroller">
+        <div className="container-fluid page-body-wrapper full-page-wrapper">
+          <div className="row w-100 m-0">
+            <div className="content-wrapper full-page-wrapper d-flex align-items-center auth login-bg">
+              <div className="card col-lg-4 mx-auto">
+                <div className="card-body px-5 py-5">
+                  <h3 className="card-title text-left mb-3">Login</h3>
+                  <form onSubmit={handleSubmit}>
+                    <div className="form-group">
+                      <label>Email *</label>
                       <input
-                        onChange={handleChange}
-                        name="email"
                         type="text"
-                        className="full-width"
-                        placeholder="Your Email"
-                      />
-                    </div>
-
-                    <div className="form-field">
-                      <input
+                        name="email"
                         onChange={handleChange}
-                        name="password"
-                        type="password"
-                        className="full-width"
-                        placeholder="Enter Password"
+                        className="form-control p_input"
                       />
                     </div>
-
-                    <button
-                      type="submit"
-                      className="submit btn--primary btn--large full-width"
-                    >
-                      Submit
-                    </button>
-                  </fieldset>
-                </form>
-                <br />
-                <br />
-                <p>
-                  Register Yourself ? <Link to={"/signup"}>Signup</Link>
-                </p>
-                <br /><br />
-                <p>
-                  <Popover/>
-                </p>
+                    <div className="form-group">
+                      <label>Password *</label>
+                      <input
+                        type="password"
+                        name="password"
+                        onChange={handleChange}
+                        className="form-control p_input"
+                      />
+                    </div>
+                    <div className="text-center">
+                      <button type="submit" className="btn btn-primary btn-block enter-btn">
+                        Login
+                      </button>
+                    </div>
+                  </form>
+                  <p className="sign-up">
+                    Don't have an Account? <Link to={'/signup'}>Sign Up</Link>
+                  </p>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </section>
-
-      <Footer />
+      </div>
     </>
   );
 };

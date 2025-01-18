@@ -1,147 +1,115 @@
-import Header from "../Components/Header";
-import Footer from "../Components/Footer";
-import "../assets/css/Login.css";
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-const Signup = () => {
-  const [state, setState] = useState({
-    username: "",
-    email: "",
-    password: "",
-  });
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
+const Signup = () => {
+  const [role, setRole] = useState('');
+  const [adminInput, setAdminInput] = useState('');
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setState({ ...state, [name]: value });
-  };
+  const [state, setState] = useState({
+    username: '',
+    email: '',
+    password: '',
+    role: "",
+    adminCode: '',
+  })
+
+  const handlechange = (e) => {
+    const { name, value } = e.target
+    setState({ ...state, [name]: value })
+    if (name === 'role') {
+      setRole(value);
+    }
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(state);
 
-    try {
-      const response = await fetch(`http://localhost:5010/signup`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(state),
-      });
+    console.log(state)
 
-      const result = await response.json();
+    const secretKey = role === 'admin' ? adminInput : undefined;
 
-      if (response.ok) {
-        console.log("User added successfully:", result);
-        navigate("/login");
-      } else {
-        console.error("Failed to add movie:", result.message);
+
+      try {
+        const response = await fetch('http://localhost:5110/user/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(state),
+        });
+
+        const result = await response.json();
+        if (response.ok) {
+          toast.success(result.msg);
+          setTimeout(() => {
+            navigate('/login');
+          }, 3000);
+        } else {
+          toast.error(result.msg);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        toast.error('An error occurred while registering.');
       }
-    } catch (error) {
-      console.error("Error during submission:", error);
-    }
   };
 
   return (
     <>
       <ToastContainer />
-      <Header />
-      {/* <div className="body">
-      <div className="login-container">
-        <h1>Signup</h1>
-        <form id="loginForm" action="signup" method="POST" onSubmit={handleSubmit} >
-          <div className="input-group">
-            <label htmlFor="username">Username</label>
-            <input type="text"  name="username" required  onChange={handleChange} />
-          </div>
-          <div className="input-group">
-            <label htmlFor="username">Email</label>
-            <input type="email" name="email" required  onChange={handleChange} />
-          </div>
-          <div className="input-group">
-            <label htmlFor="password">Password</label>
-            <input type="password"  name="password" required  onChange={handleChange} />
-          </div>
-          <button type="submit" className="button">Register</button>
-        </form>
-      <p>Alredy have account ? <Link to={'/login'}>Login</Link></p>
-      </div>
-      </div> */}
-      <ToastContainer
-        className="toast-container-custom"
-        position="top-left"
-        hideProgressBar={false}
-        newestOnTop={true}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-
-      <section className="s-content--narrow">
-        <div className="comments-wrapp">
-          <div id="comments" className="row">
-            <div className="col-full">
-              <div className="respond">
-                <h3 className="h2">Register Here </h3>
-
-                <form onSubmit={handleSubmit}>
-                  <fieldset>
-                    <div className="form-field">
-                      <input
-                        name="username"
-                        required
-                        onChange={handleChange}
-                        type="text"
-                        className="full-width"
-                        placeholder="Your Name"
-                      />
+      <div className="container-scroller">
+        <div className="container-fluid page-body-wrapper full-page-wrapper">
+          <div className="row w-100 m-0">
+            <div className="content-wrapper full-page-wrapper d-flex align-items-center auth login-bg">
+              <div className="card col-lg-4 mx-auto">
+                <div className="card-body px-5 py-5">
+                  <h3 className="card-title text-left mb-3">Register</h3>
+                  <form onSubmit={handleSubmit}>
+                    <div className="form-group">
+                      <label>Username</label>
+                      <input type="text" className="form-control p_input" name='username' onChange={handlechange} required />
+                    </div>
+                    <div className="form-group">
+                      <label>Email</label>
+                      <input type="email" className="form-control p_input" name='email' onChange={handlechange} required />
+                    </div>
+                    <div className="form-group">
+                      <label>Password</label>
+                      <input type="password" className="form-control p_input" name='password' onChange={handlechange} required />
                     </div>
 
-                    <div className="form-field">
-                      <input
-                        type="email"
-                        name="email"
-                        required
-                        onChange={handleChange}
-                        className="full-width"
-                        placeholder="Your Email"
-                      />
+                    <div className="form-group">
+                      <label>Role</label>
+                      <select className="form-select" aria-label="Default select example" name='role' onChange={handlechange} required>
+                        <option value="">Select Role</option>
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
+                      </select>
                     </div>
 
-                    <div className="form-field">
-                      <input
-                        onChange={handleChange}
-                        name="password"
-                        type="password"
-                        className="full-width"
-                        placeholder="Enter Password"
-                      />
-                    </div>
+                    {role === 'admin' && (
+                      <div className="form-group">
+                        <label>Admin Code</label>
+                        <input type="text" className="form-control p_input" name='adminCode' onChange={handlechange} required />
+                      </div>
+                    )}
 
-                    <button
-                      type="submit"
-                      className="submit btn--primary btn--large full-width"
-                    >
-                      Submit
-                    </button>
-                  </fieldset>
-                </form>
-                <br />
-                <br />
-                <p>Alredy have account ? <Link to={'/login'}>Login</Link></p>
+                    <div className="text-center">
+                      <button type="submit" className="btn btn-primary btn-block enter-btn">Register</button>
+                    </div>
+                  </form>
+                  
+                  <p className="sign-up text-center">Already have an Account?<Link to='/login'> Sign Up</Link></p>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </section>
-      <Footer />
+      </div>
     </>
-  );
-};
+  )
+}
 
-export default Signup;
+export default Signup

@@ -12,7 +12,6 @@ app.use(cors())
 app.use('/user',UserRouter)
 app.use('/blog',BlogRouter)
 
-
 app.listen(process.env.port,()=>{
     connet()
     console.log(`server running at ${process.env.port}`);
