@@ -2,8 +2,18 @@ import React, { useState } from "react";
 import logo from "../assets/images/logo.svg";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useNavigate } from "react-router-dom";
+
 
 const Header = () => {
+  const navigate = useNavigate();
+
+
+  const handleLogout=()=>{
+      sessionStorage.removeItem("token");
+      navigate("/login");
+  };
+
   const [searchTerm, setSearchTerm] = useState("");
   const handleSearchChange = (e) => setSearchTerm(e.target.value);
 
@@ -52,7 +62,7 @@ const Header = () => {
                 <i className="fa fa-book"></i> My Blogs
               </Link>
             </li>
-            
+              
           </ul>
 
           {/* Search Bar */}
@@ -69,7 +79,16 @@ const Header = () => {
               Search
             </button>
           </form>
+          
         </div>
+        <li className="nav-item">
+          <button
+            className="btn btn-danger nav-link ms-5 mb-3"
+            onClick={handleLogout}
+          >
+            <i className="fa fa-sign-out"></i> Logout
+          </button>
+        </li>
 
         {/* Social Media Links */}
         <div className="mt-2">

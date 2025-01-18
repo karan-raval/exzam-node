@@ -59,10 +59,8 @@ const HomePage = () => {
       <Header />
 
       <div className="container my-5">
-        {/* Featured Section */}
         
 
-        {/* Blog Cards Section */}
         <div className="row">
           {blogs.map((blog) => (
             <div key={blog._id} className="col-md-4 mb-4">
@@ -75,21 +73,7 @@ const HomePage = () => {
                   <p className="card-text text-truncate">{blog.description}</p>
                   <p className="text-muted">{blog.category}</p>
                 </div>
-                {/* <div className="card-footer d-flex justify-content-between align-items-center">
-                  <button
-                    className="btn btn-outline-danger btn-sm"
-                    onClick={() => handleLike(blog._id)}
-                  >
-                    <FontAwesomeIcon
-                      icon={faHeart}
-                      color={blog.likedBy.includes(sessionStorage.getItem("UserId")) ? "red" : "black"}
-                    />{" "}
-                    {blog.like}
-                  </button>
-                  <button className="btn btn-outline-secondary btn-sm">
-                    <FontAwesomeIcon icon={faBookmark} />
-                  </button>
-                </div> */}
+                
               </div>
             </div>
           ))}
