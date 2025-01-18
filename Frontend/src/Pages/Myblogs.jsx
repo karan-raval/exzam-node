@@ -11,11 +11,11 @@ const UserBlogs = () => {
   useEffect(() => {
     const fetchUserBlogs = async () => {
       try {
-        const response = await fetch("http://localhost:5010/myBlogs", {
+        const response = await fetch("http://localhost:5110/myBlogs", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${sessionStorage.getItem("Token")}`,
+            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
           },
         });
 
@@ -38,11 +38,11 @@ const UserBlogs = () => {
   const handleDelete = async (id) => {
     // console.log(id)
     try {
-      const response = await fetch(`http://localhost:5010/delete`, {
+      const response = await fetch(`http://localhost:5110/delete`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${sessionStorage.getItem("Token")}`,
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
         },
         body: JSON.stringify({ id }),
       });
@@ -108,8 +108,20 @@ const UserBlogs = () => {
                   </div>
                   <br /><br />
                   <div className="entry__actions">
-                  <button onClick={() => handleEdit(el._id)}>Edit</button>
-                  <button onClick={() => handleDelete(el._id)}>Delete</button>
+                  <div>
+  <button
+    className="btn btn-warning btn-sm me-2"
+    onClick={() => handleEdit(el._id)}
+  >
+    Edit
+  </button>
+  <button
+    className="btn btn-danger btn-sm"
+    onClick={() => handleDelete(el._id)}
+  >
+    Delete
+  </button>
+</div>
                   </div>
                 </div>
               </article>

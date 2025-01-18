@@ -1,76 +1,27 @@
-import { React, useEffect, useState } from "react";
-import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import Header from "../Components/Header";
 import Footer from "../Components/Footer";
-import Box from "@mui/material/Box";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import Input from '@mui/material/Input';
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import '../assets/css/createblog.css'
 import "react-toastify/dist/ReactToastify.css";
 import { toast, ToastContainer } from "react-toastify";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const EditBlog = () => {
-  const [token, setToken] = useState((sessionStorage.getItem("Token")) || null);
-  const [category, setCategory] = useState("");
-
+  const [token, setToken] = useState(sessionStorage.getItem("token") || null);
   const { id } = useParams();
   const navigate = useNavigate();
-
-
-  // console.log(token)
-
-  const today = new Date();
-
-  const monthNames = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-
-  const month = monthNames[today.getMonth()];
-  const date = today.getDate();
-  const year = today.getFullYear();
-
-  let all = date + " " + month + " " + year;
-
-  const handleChange = async (e) => {
-    let { name, value } = e.target;
-    setFromdata({ ...fromdata, [name]: value });
-  };
-
-  const handleSort = (event) => {
-    const selectedCategory = event.target.value;
-    setFromdata((prevData) => ({
-      ...prevData,
-      category: selectedCategory,
-    }));
-  };
-
-  const [fromdata, setFromdata] = useState({
+  const [formData, setFormData] = useState({
     title: "",
     description: "",
     image: "",
     category: "",
-    date: all
+    date: "",
   });
 
   useEffect(() => {
     const fetchBlog = async () => {
-      const token = sessionStorage.getItem("Token");
       try {
-        const response = await fetch(`http://localhost:5010/editget/${id}`, {
+        const response = await fetch(`http://localhost:5110/editget/${id}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -83,21 +34,22 @@ const EditBlog = () => {
         }
 
         const data = await response.json();
-        console.log(data)
-        setFromdata(data.blog)
+        setFormData(data.blog);
       } catch (error) {
         console.error("Error fetching blog data:", error);
       }
     };
-    
+
     fetchBlog();
-  }, [id]);
-  
-  // console.log(fromdata)
-  
+  }, [id, token]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       const response = await fetch(`http://localhost:5010/editblog`, {
         method: "PATCH",
@@ -105,129 +57,117 @@ const EditBlog = () => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({
-          id,
-          ...fromdata
-        }),
+        body: JSON.stringify({ id, ...formData }),
       });
 
-      const result = await response.json();
       if (response.ok) {
         toast.success("Blog updated successfully!");
-        setTimeout(() => {
-          navigate("/");
-        }, 4000);
+        setTimeout(() => navigate("/"), 3000);
       } else {
-        console.error("Failed to update Blog Data:", result.message);
-        toast.error("Failed to update Blog Data:", result.message);
+        const result = await response.json();
+        toast.error(result.message || "Failed to update blog.");
       }
     } catch (error) {
-      console.error("Error during submission:", error);
-      toast.error("Error during submission!", error);
+      toast.error("An error occurred while updating the blog.");
     }
   };
 
   return (
     <>
-    <Header />
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-      <section className="s-content--narrow">
-        <div className="comments-wrapp">
-          <div id="comments" className="row">
-            <div className="col-full">
-              <div className="respond">
-                <h3 className="h2">Write Your Blog </h3>
+      <Header />
+      <ToastContainer position="top-right" autoClose={3000} />
 
-                <form onSubmit={handleSubmit}>
-                  <fieldset>
-                    <div className="form-field">
-                      <input
-                        onChange={handleChange}
-                        name="title"
-                        type="text"
-                        className="full-width"
-                        placeholder="Blog Title"
-                        value={fromdata.title}
-                      />
-                    </div>
-
-                    <div className="form-field">
-                      <input
-                        onChange={handleChange}
-                        name="description"
-                        type="text"
-                        className="full-width"
-                        placeholder="Blog Description"
-                        value={fromdata.description}
-                      />
-                    </div>
-
-                    <div className="form-field">
-                      <Box>
-                        <FormControl
-                          size="big"
-                          fullWidth
-                          sx={{ marginBottom: 2, fontSize: '2rem', color: 'Gray' }}
-                        >
-                          <InputLabel
-                            id="demo-simple-select-label"
-                            sx={{ fontSize: '1.5rem', color: 'Gray' }}
-                            name='category'
-                          >
-                            Categories
-                          </InputLabel>
-                          <Select
-                            value={fromdata.category}
-                            onChange={handleSort}
-                            sx={{ fontSize: '1.6rem', color: '#f1f1f5' }}
-                          >
-                            <MenuItem value={"Lifestyle"} sx={{ fontSize: '1.2rem' }}>Lifestyle</MenuItem>
-                            <MenuItem value={"Health"} sx={{ fontSize: '1.2rem' }}>Health</MenuItem>
-                            <MenuItem value={"Family"} sx={{ fontSize: '1.2rem' }}>Family</MenuItem>
-                            <MenuItem value={"Management"} sx={{ fontSize: '1.2rem' }}>Management</MenuItem>
-                            <MenuItem value={"Travel"} sx={{ fontSize: '1.2rem' }}>Travel</MenuItem>
-                            <MenuItem value={"Work"} sx={{ fontSize: '1.2rem' }}>Work</MenuItem>
-                          </Select>
-                        </FormControl>
-                      </Box>
-                    </div>
-                    <div className="form-field">
-                      <input
-                        onChange={handleChange}
-                        name="image"
-                        type="text"
-                        className="full-width"
-                        placeholder="Your Image Link"
-                        value={fromdata.image}
-                      />
-                    </div>
-
-                    <button
-                      type="submit"
-                      className="submit btn--primary btn--large full-width">
-                      Submit
-                    </button>
-                  </fieldset>
-                </form>
-              </div>
-            </div>
+      <section className="container my-5">
+        <h2 className="text-center mb-4">Edit Your Blog</h2>
+        <form onSubmit={handleSubmit} className="row g-3">
+          {/* Blog Title */}
+          <div className="col-12">
+            <label htmlFor="title" className="form-label">
+              Blog Title
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="title"
+              name="title"
+              value={formData.title}
+              onChange={handleChange}
+              placeholder="Enter your blog title"
+              required
+            />
           </div>
-        </div>
+
+          {/* Blog Description */}
+          <div className="col-12">
+            <label htmlFor="description" className="form-label">
+              Blog Description
+            </label>
+            <textarea
+              className="form-control"
+              id="description"
+              name="description"
+              rows="5"
+              value={formData.description}
+              onChange={handleChange}
+              placeholder="Enter your blog description"
+              required
+            ></textarea>
+          </div>
+
+          {/* Category */}
+          <div className="col-md-6">
+            <label htmlFor="category" className="form-label">
+              Category
+            </label>
+            <select
+              className="form-select"
+              id="category"
+              name="category"
+              value={formData.category}
+              onChange={handleChange}
+              required
+            >
+              <option value="" disabled>
+                Select a category
+              </option>
+              <option value="Lifestyle">Lifestyle</option>
+              <option value="Health">Health</option>
+              <option value="Family">Family</option>
+              <option value="Management">Management</option>
+              <option value="Travel">Travel</option>
+              <option value="Work">Work</option>
+            </select>
+          </div>
+
+          {/* Image Link */}
+          <div className="col-md-6">
+            <label htmlFor="image" className="form-label">
+              Image Link
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="image"
+              name="image"
+              value={formData.image}
+              onChange={handleChange}
+              placeholder="Enter the image URL"
+              required
+            />
+          </div>
+
+          {/* Submit Button */}
+          <div className="col-12 text-center">
+            <button type="submit" className="btn btn-primary btn-lg">
+              Update Blog
+            </button>
+          </div>
+        </form>
       </section>
 
       <Footer />
     </>
-  )
-}
+  );
+};
 
-export default EditBlog
+export default EditBlog;
