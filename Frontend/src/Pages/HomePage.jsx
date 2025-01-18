@@ -40,7 +40,7 @@ const HomePage = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await fetch("http://localhost:5110/blog/allBlogs");
+        const response = await fetch("http://localhost:5110/allBlogs");
         if (!response.ok) {
           throw new Error("Failed to fetch blogs");
         }
@@ -99,7 +99,7 @@ const HomePage = () => {
                   <p className="card-text text-truncate">{blog.description}</p>
                   <p className="text-muted">{blog.category}</p>
                 </div>
-                <div className="card-footer d-flex justify-content-between align-items-center">
+                {/* <div className="card-footer d-flex justify-content-between align-items-center">
                   <button
                     className="btn btn-outline-danger btn-sm"
                     onClick={() => handleLike(blog._id)}
@@ -113,7 +113,7 @@ const HomePage = () => {
                   <button className="btn btn-outline-secondary btn-sm">
                     <FontAwesomeIcon icon={faBookmark} />
                   </button>
-                </div>
+                </div> */}
               </div>
             </div>
           ))}

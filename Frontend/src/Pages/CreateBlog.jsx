@@ -7,7 +7,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const CreateBlog = () => {
-  const [token, setToken] = useState(sessionStorage.getItem("Token") || null);
+  const [token, setToken] = useState(sessionStorage.getItem("token") || null);
   const navigate = useNavigate();
 
   const today = new Date();
@@ -46,8 +46,9 @@ const CreateBlog = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(formData)
     try {
-      const response = await fetch(`http://localhost:5010/createblog`, {
+      const response = await fetch(`http://localhost:5110/createblog`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -55,7 +56,7 @@ const CreateBlog = () => {
         },
         body: JSON.stringify(formData),
       });
-
+      
       const result = await response.json();
       if (response.ok) {
         toast.success("Blog submitted successfully!");
