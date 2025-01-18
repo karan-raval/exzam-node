@@ -9,8 +9,8 @@ const app=express()
 app.use(express.json())
 app.use(cors())
 
-app.use('/',UserRouter)
-app.use('/',BlogRouter)
+app.use('/user',UserRouter)
+app.use('/blog',BlogRouter)
 
 
 app.listen(process.env.port,()=>{

@@ -5,7 +5,6 @@ const bcrypt = require("bcrypt");
 require('dotenv').config()
 const UserRouter = Router()
 
-
 UserRouter.get("/all", async (req, res) => {
     let data = await UserModel.find()
     res.send(data)
