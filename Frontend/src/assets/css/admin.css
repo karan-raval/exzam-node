@@ -29360,7 +29360,7 @@
   .navbar {
     font-weight: normal;
     background: #191c24;
-    left: 244px;
+    left: 0px;
     transition: left 0.25s ease;
     -webkit-transition: left 0.25s ease;
     -moz-transition: left 0.25s ease;
@@ -60121,7 +60121,7 @@ div.tagsinput span.tag a {
 .navbar {
   font-weight: normal;
   background: #191c24;
-  left: 244px;
+  left: 0px;
   transition: left 0.25s ease;
   -webkit-transition: left 0.25s ease;
   -moz-transition: left 0.25s ease;

@@ -9,16 +9,11 @@ const Header = () => {
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light shadow-sm py-3">
-      <div className="container d-flex flex-column align-items-center">
+      <div className="container">
         {/* Logo */}
-        <Link className="navbar-brand d-flex align-items-center mb-3" to="/">
-          <img
-            src={logo}
-            alt="Homepage"
-            className="img-fluid"
-            style={{ height: "30px" }}
-          />
-          <span className="ms-2 fw-bold">BrandName</span>
+        <Link className="navbar-brand d-flex align-items-center" to="/">
+         
+          <span className="ms-2 fw-bold">Blogs </span>
         </Link>
 
         {/* Toggle Button for Mobile */}
@@ -35,29 +30,45 @@ const Header = () => {
         </button>
 
         {/* Navbar Links */}
-        <div className="collapse navbar-collapse justify-content-center" id="navbarNav">
-          <ul className="navbar-nav text-center">
+        <div className="collapse navbar-collapse" id="navbarNav">
+          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
               <Link className="nav-link" to="/">
-                Home
+                <i className="fa fa-home"></i> Home
               </Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/createblog">
-                Add Blog
+                <i className="fa fa-plus"></i> Add Blog
               </Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/login">
-                Login
+                <i className="fa fa-sign-in"></i> Login
               </Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/myblogs">
-                My Blogs
+                <i className="fa fa-book"></i> My Blogs
               </Link>
             </li>
+            
           </ul>
+
+          {/* Search Bar */}
+          <form className="d-flex mt-2">
+            <input
+              className="form-control me-2"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+              value={searchTerm}
+              onChange={handleSearchChange}
+            />
+            <button className="btn btn-outline-success" type="submit">
+              Search
+            </button>
+          </form>
         </div>
 
         {/* Social Media Links */}

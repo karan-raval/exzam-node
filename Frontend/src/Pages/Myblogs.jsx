@@ -71,61 +71,61 @@ const UserBlogs = () => {
         <div className="row masonry-wrap">
           <div className="masonry" id="sy3">
             <div className="grid-sizer"></div>
-            {blogs.map((el) => (
-              <article
-                key={el.id}
-                className="masonry__brick entry format-standard aos-init aos-animate"
-                data-aos="fade-up"
-                id={`sy${el.id}`}
-              >
-                <div className="entry__thumb">
-                  <a className="entry__thumb-link">
-                    <img src={el.image} alt="" />
-                  </a>
-                </div>
+            <div className="container" style={{ width: "30%" }}>
+              {blogs.map((el) => (
+                <article
+                  key={el.id}
+                  className="masonry__brick entry format-standard aos-init aos-animate"
+                  data-aos="fade-up"
+                  id={`sy${el.id}`}
+                >
+                  <div className="entry__thumb">
+                    <a className="entry__thumb-link">
+                      <img src={el.image} alt="" />
+                    </a>
+                  </div>
 
-                <div className="entry__text">
-                  <div className="entry__header">
-                    <div className="entry__date">
-                      <a>{el.date}</a>
-                    </div>
-                    <h1 className="entry__title">
+                  <div className="entry__text">
+                    <div className="entry__header">
+                      <div className="entry__date">
+                        <a>{el.date}</a>
+                      </div>
+                      <h1 className="entry__title">
                         {el.title}
-
-                    </h1>
+                      </h1>
+                    </div>
+                    <div className="entry__excerpt">
+                      <p>
+                        {el.description}
+                      </p>
+                    </div>
+                    <br />
+                    <div className="entry__meta">
+                      <span className="entry__meta-links">
+                        <a>{el.category}</a>
+                      </span>
+                    </div>
+                    <br /><br />
+                    <div className="entry__actions">
+                      <div>
+                        <button
+                          className="btn btn-warning btn-sm me-2"
+                          onClick={() => handleEdit(el._id)}
+                        >
+                          Edit
+                        </button>
+                        <button
+                          className="btn btn-danger btn-sm"
+                          onClick={() => handleDelete(el._id)}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
                   </div>
-                  <div className="entry__excerpt">
-                    <p>
-                          {el.description}
-
-                    </p>
-                  </div>
-                  <br />
-                  <div className="entry__meta">
-                    <span className="entry__meta-links">
-                      <a>{el.category}</a>
-                    </span>
-                  </div>
-                  <br /><br />
-                  <div className="entry__actions">
-                  <div>
-  <button
-    className="btn btn-warning btn-sm me-2"
-    onClick={() => handleEdit(el._id)}
-  >
-    Edit
-  </button>
-  <button
-    className="btn btn-danger btn-sm"
-    onClick={() => handleDelete(el._id)}
-  >
-    Delete
-  </button>
-</div>
-                  </div>
-                </div>
-              </article>
-            ))}
+                </article>
+              ))}
+            </div>
           </div>
         </div>
       </section>
