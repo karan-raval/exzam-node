@@ -51,7 +51,7 @@ const EditBlog = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:5010/editblog`, {
+      const response = await fetch(`http://localhost:5110/editblog`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

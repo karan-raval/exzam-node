@@ -60,31 +60,7 @@ const HomePage = () => {
 
       <div className="container my-5">
         {/* Featured Section */}
-        <div className="row mb-5">
-          <div className="col-lg-8 mb-4">
-            <div className="card bg-primary text-white">
-              <div className="card-body">
-                <h5 className="card-title">What Your Music Preference Says About You</h5>
-                <p className="card-text">Explore the connection between music and personality.</p>
-                <small>Posted on December 29, 2017</small>
-              </div>
-            </div>
-          </div>
-          <div className="col-lg-4">
-            <div className="card mb-3 bg-secondary text-white">
-              <div className="card-body">
-                <h6>The Pomodoro Technique Really Works</h6>
-                <small>Posted on December 27, 2017</small>
-              </div>
-            </div>
-            <div className="card bg-dark text-white">
-              <div className="card-body">
-                <h6>Throwback To The Good Old Days</h6>
-                <small>Posted on December 21, 2017</small>
-              </div>
-            </div>
-          </div>
-        </div>
+        
 
         {/* Blog Cards Section */}
         <div className="row">
