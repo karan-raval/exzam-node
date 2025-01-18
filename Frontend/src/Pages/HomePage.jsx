@@ -1,29 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faBookmark } from "@fortawesome/free-solid-svg-icons";
-import user3 from "../assets/images/user-01.jpg";
-import lamp from "../assets/images/lamp-400.jpg";
+import { Link } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
 import Header from "../Components/Header";
 import Footer from "../Components/Footer";
-import "../App.css";
-import Popularpost from "../Components/Popularpost";
-import axios from "axios";
-
-import { Flex, Text } from "@chakra-ui/react"
-import { Link } from "react-router-dom";
 
 const HomePage = () => {
-  const [blogs, setBlogs] = useState([]); 
+  const [blogs, setBlogs] = useState([]);
 
   const handleLike = async (blogId) => {
     try {
       const response = await fetch(`http://localhost:5010/${blogId}/like`, {
-        method: 'PATCH',
+        method: "PATCH",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
         },
-        body: JSON.stringify({ userId: localStorage.getItem("UserId") }),
+        body: JSON.stringify({ userId: sessionStorage.getItem("UserId") }),
       });
 
       if (!response.ok) {
@@ -43,16 +37,14 @@ const HomePage = () => {
     }
   };
 
-
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await fetch("http://localhost:5010/allBlogs"); // Adjust the URL as needed
+        const response = await fetch("http://localhost:5110/blog/allBlogs");
         if (!response.ok) {
           throw new Error("Failed to fetch blogs");
         }
         const data = await response.json();
-        console.log(data);
         setBlogs(data);
       } catch (error) {
         console.error("Error fetching blogs:", error);
@@ -64,167 +56,70 @@ const HomePage = () => {
 
   return (
     <>
-      <section className="s-pageheader s-pageheader--home">
-        <Header />
-        <div className="pageheader-content row">
-          <div className="col-full">
-            <div className="featured">
-              <div className="featured__column featured__column--big">
-                <div className="entry bg1">
-                  <div className="entry__content">
-                    <span className="entry__category">
-                      <a>Music</a>
-                    </span>
+      <Header />
 
-                    <h1>
-                      <a>
-                        What Your Music Preference Says About You and Your
-                        Personality.
-                      </a>
-                    </h1>
-
-                    <div className="entry__info">
-                      <a className="entry__profile-pic">
-                        <img className="avatar" src={user3} alt="" />
-                      </a>
-
-                      <ul className="entry__meta">
-                        <li>
-                          <a>John Doe</a>
-                        </li>
-                        <li>December 29, 2017</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
+      <div className="container my-5">
+        {/* Featured Section */}
+        <div className="row mb-5">
+          <div className="col-lg-8 mb-4">
+            <div className="card bg-primary text-white">
+              <div className="card-body">
+                <h5 className="card-title">What Your Music Preference Says About You</h5>
+                <p className="card-text">Explore the connection between music and personality.</p>
+                <small>Posted on December 29, 2017</small>
               </div>
-
-              <div className="featured__column featured__column--small">
-                <div className="entry bg2">
-                  <div className="entry__content">
-                    <span className="entry__category">
-                      <a>Management</a>
-                    </span>
-
-                    <h1>
-                      <a>The Pomodoro Technique Really Works.</a>
-                    </h1>
-
-                    <div className="entry__info">
-                      <a className="entry__profile-pic">
-                        <img className="avatar" src={user3} />
-                      </a>
-
-                      <ul className="entry__meta">
-                        <li>
-                          <a>John Doe</a>
-                        </li>
-                        <li>December 27, 2017</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="entry bg3">
-                  <div className="entry__content">
-                    <span className="entry__category">
-                      <a>LifeStyle</a>
-                    </span>
-
-                    <h1>
-                      <a title="">Throwback To The Good Old Days.</a>
-                    </h1>
-
-                    <div className="entry__info">
-                      <a className="entry__profile-pic">
-                        <img className="avatar" src={user3} alt="" />
-                      </a>
-
-                      <ul className="entry__meta">
-                        <li>
-                          <a>John Doe</a>
-                        </li>
-                        <li>December 21, 2017</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
+            </div>
+          </div>
+          <div className="col-lg-4">
+            <div className="card mb-3 bg-secondary text-white">
+              <div className="card-body">
+                <h6>The Pomodoro Technique Really Works</h6>
+                <small>Posted on December 27, 2017</small>
+              </div>
+            </div>
+            <div className="card bg-dark text-white">
+              <div className="card-body">
+                <h6>Throwback To The Good Old Days</h6>
+                <small>Posted on December 21, 2017</small>
               </div>
             </div>
           </div>
         </div>
-      </section>
 
-      <section className="s-content">
-        <div className="row masonry-wrap">
-          <div className="masonry" id="sy3">
-            <div className="grid-sizer"></div>
-
-            {blogs.map((el) => (
-              <article
-                key={el.id}
-                className="masonry__brick entry format-standard aos-init aos-animate"
-                data-aos="fade-up"
-                id={`sy${el.id}`}
-              >
-                <div className="entry__thumb">
-                  <Link to={`/allblogs/${el._id}`} className="entry__thumb-link">
-                    <img src={el.image} alt="" />
-                  </Link>
+        {/* Blog Cards Section */}
+        <div className="row">
+          {blogs.map((blog) => (
+            <div key={blog._id} className="col-md-4 mb-4">
+              <div className="card h-100">
+                <Link to={`/allblogs/${blog._id}`}>
+                  <img src={blog.image} className="card-img-top" alt={blog.title} />
+                </Link>
+                <div className="card-body">
+                  <h5 className="card-title">{blog.title}</h5>
+                  <p className="card-text text-truncate">{blog.description}</p>
+                  <p className="text-muted">{blog.category}</p>
                 </div>
-
-                <div className="entry__text">
-                  <div className="entry__header">
-                    <div className="entry__date">
-                      <a>{el.date}</a>
-                    </div>
-                    <h1 className="entry__title"><Flex maxW="300px">
-                      <Text truncate>
-                        {el.title}
-                      </Text>
-                    </Flex>
-
-                    </h1>
-                  </div>
-                  <div className="entry__excerpt">
-                    <p>
-                      <Flex maxW="300px">
-                        <Text lineClamp="2">
-                          {el.description}
-                        </Text>
-                      </Flex>
-
-                    </p>
-                  </div>
-                  <br />
-                  <div className="entry__meta">
-                    <span className="entry__meta-links">
-                      <a>{el.category}</a>
-                    </span>
-                  </div>
-                  <br /><br />
-                  <div className="entry__actions">
+                <div className="card-footer d-flex justify-content-between align-items-center">
+                  <button
+                    className="btn btn-outline-danger btn-sm"
+                    onClick={() => handleLike(blog._id)}
+                  >
                     <FontAwesomeIcon
                       icon={faHeart}
-                      onClick={() => handleLike(el._id)}
-                      style={{
-                        cursor: 'pointer',
-                        color: el.likedBy.includes(localStorage.getItem("UserId")) ? 'red' : 'black',
-                      }}
-                    />
-                    <span style={{ marginLeft: '8px' }}>{el.like} Likes</span>
-                    <FontAwesomeIcon
-                      icon={faBookmark}
-                    />
-                  </div>
+                      color={blog.likedBy.includes(sessionStorage.getItem("UserId")) ? "red" : "black"}
+                    />{" "}
+                    {blog.like}
+                  </button>
+                  <button className="btn btn-outline-secondary btn-sm">
+                    <FontAwesomeIcon icon={faBookmark} />
+                  </button>
                 </div>
-              </article>
-            ))}
-          </div>
+              </div>
+            </div>
+          ))}
         </div>
-      </section>
+      </div>
 
-      <Popularpost />
       <Footer />
     </>
   );

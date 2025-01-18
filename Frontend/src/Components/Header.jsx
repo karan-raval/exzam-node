@@ -1,96 +1,122 @@
 import React, { useState } from "react";
 import logo from "../assets/images/logo.svg";
 import { Link } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const Header = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [isNavOpen, setIsNavOpen] = useState(false);
-
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
-  };
-
-  const toggleNav = () => {
-    setIsNavOpen((prev) => !prev);
-    document.body.classList.toggle("nav-wrap-is-visible", !isNavOpen);
-  };
+  const handleSearchChange = (e) => setSearchTerm(e.target.value);
 
   return (
-    <>
-      <div className="s-pageheader">
-        <header className="header">
-          <div className="header__content row">
-            <div className="header__logo">
-              <a className="logo" href="index.html">
-                <img src={logo} alt="Homepage" />
-              </a>
-            </div>
+    <nav className="navbar navbar-expand-lg navbar-light bg-light shadow-sm py-3">
+      <div className="container d-flex flex-column align-items-center">
+        {/* Logo */}
+        <Link className="navbar-brand d-flex align-items-center mb-3" to="/">
+          <img
+            src={logo}
+            alt="Homepage"
+            className="img-fluid"
+            style={{ height: "30px" }}
+          />
+          <span className="ms-2 fw-bold">BrandName</span>
+        </Link>
 
-            <ul className="header__social">
-              <li>
-                <a>
-                  <i className="fa fa-facebook" aria-hidden="true"></i>
-                </a>
-              </li>
-              <li>
-                <a>
-                  <i className="fa fa-twitter" aria-hidden="true"></i>
-                </a>
-              </li>
-              <li>
-                <a>
-                  <i className="fa fa-instagram" aria-hidden="true"></i>
-                </a>
-              </li>
-              <li>
-                <a>
-                  <i className="fa fa-pinterest" aria-hidden="true"></i>
-                </a>
-              </li>
-            </ul>
+        {/* Toggle Button for Mobile */}
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
 
-            <a
-              className="header__toggle-menu"
-              title="Menu"
-              onClick={toggleNav}
-            >
-              <span>Menu</span>
-            </a>
+        {/* Navbar Links */}
+        <div className="collapse navbar-collapse justify-content-center" id="navbarNav">
+          <ul className="navbar-nav text-center">
+            <li className="nav-item">
+              <Link className="nav-link" to="/">
+                Home
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/createblog">
+                Add Blog
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/login">
+                Login
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/aboutus">
+                About
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/wishlist">
+                Wishlist
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/myblogs">
+                My Blogs
+              </Link>
+            </li>
+          </ul>
+        </div>
 
-            <nav className={`header__nav-wrap ${isNavOpen ? 'is-visible' : ''}`}>
-              <h2 className="header__nav-heading h6">Site Navigation</h2>
-              <ul className="header__nav">
-                <li>
-                  <Link to={"/"}>Home</Link>
-                </li>
-                <li>
-                  <Link to={"/createblog"}>Add blog</Link>
-                </li>
-                <li>
-                  <Link to={"/login"}>Login</Link>
-                </li>
-                <li>
-                  <Link to={"/aboutus"}>About</Link>
-                </li>
-                <li>
-                  <Link to={"/whislist"}>wishlist</Link>
-                </li>
-                <li>
-                  <Link to={"/myblogs"}>My Blogs</Link>
-                </li>
-              </ul>
+        {/* Social Media Links */}
+        <div className="mt-2">
+          <ul className="navbar-nav d-flex flex-row justify-content-center">
+            <li className="nav-item me-3">
               <a
-                title="Close Menu"
-                className="header__overlay-close close-mobile-menu"
-                onClick={toggleNav}
+                className="nav-link text-dark"
+                href="https://www.facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                Close
+                <i className="fa fa-facebook"></i>
               </a>
-            </nav>
-          </div>
-        </header>
+            </li>
+            <li className="nav-item me-3">
+              <a
+                className="nav-link text-dark"
+                href="https://www.twitter.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i className="fa fa-twitter"></i>
+              </a>
+            </li>
+            <li className="nav-item me-3">
+              <a
+                className="nav-link text-dark"
+                href="https://www.instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i className="fa fa-instagram"></i>
+              </a>
+            </li>
+            <li className="nav-item">
+              <a
+                className="nav-link text-dark"
+                href="https://www.pinterest.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i className="fa fa-pinterest"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
-    </>
+    </nav>
   );
 };
 

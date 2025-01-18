@@ -14,7 +14,7 @@ import { toast, ToastContainer } from "react-toastify";
 
 
 const CreateBlog = () => {
-  const [token, setToken] = useState((localStorage.getItem("Token")) || null);
+  const [token, setToken] = useState((sessionStorage.getItem("Token")) || null);
   const [category, setCategory] = useState("");
   // console.log(token)
 

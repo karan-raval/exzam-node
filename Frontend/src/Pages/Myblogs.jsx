@@ -15,7 +15,7 @@ const UserBlogs = () => {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("Token")}`,
+            Authorization: `Bearer ${sessionStorage.getItem("Token")}`,
           },
         });
 
@@ -42,7 +42,7 @@ const UserBlogs = () => {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("Token")}`,
+          Authorization: `Bearer ${sessionStorage.getItem("Token")}`,
         },
         body: JSON.stringify({ id }),
       });

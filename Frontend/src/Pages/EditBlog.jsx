@@ -13,7 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { toast, ToastContainer } from "react-toastify";
 
 const EditBlog = () => {
-  const [token, setToken] = useState((localStorage.getItem("Token")) || null);
+  const [token, setToken] = useState((sessionStorage.getItem("Token")) || null);
   const [category, setCategory] = useState("");
 
   const { id } = useParams();
@@ -68,7 +68,7 @@ const EditBlog = () => {
 
   useEffect(() => {
     const fetchBlog = async () => {
-      const token = localStorage.getItem("Token");
+      const token = sessionStorage.getItem("Token");
       try {
         const response = await fetch(`http://localhost:5010/editget/${id}`, {
           method: "GET",

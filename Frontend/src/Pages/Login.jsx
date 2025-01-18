@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import  {jwtDecode}  from 'jwt-decode';
+import '../assets/css/admin.css'
 
 const Login = () => {
   const [state, setState] = useState({
@@ -44,7 +45,7 @@ const Login = () => {
           }, 3000);
         } else {
           setTimeout(() => {
-            navigate('/products');
+            navigate('/');
           }, 3000);
         }
       } else {
