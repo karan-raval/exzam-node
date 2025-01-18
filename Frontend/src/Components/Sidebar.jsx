@@ -90,6 +90,14 @@ const Sidebar = () => {
           <li className="nav-item menu-items">
             <span className="nav-link">
               <span className="menu-icon">
+                <i className="mdi mdi-playlist-play"></i>
+              </span>
+          <Link to={'/'}><span className="menu-title">home</span></Link>
+            </span>
+          </li>
+          <li className="nav-item menu-items">
+            <span className="nav-link">
+              <span className="menu-icon">
                 <i className="mdi mdi-speedometer"></i>
               </span>
               <Link to={'/admin'}><span className="menu-title">Dashboard</span></Link>
@@ -100,17 +108,18 @@ const Sidebar = () => {
               <span className="menu-icon">
                 <i className="mdi mdi-laptop"></i>
               </span>
-              <Link to={'/addcategory'}><span className="menu-title">Add Category</span></Link>
+              <Link to={'/myblogs'}><span className="menu-title">myblog</span></Link>
             </span>
           </li>
           <li className="nav-item menu-items">
             <span className="nav-link">
               <span className="menu-icon">
-                <i className="mdi mdi-playlist-play"></i>
+                <i className="mdi mdi-laptop"></i>
               </span>
-          <Link to={'/sub-category'}><span className="menu-title">Add Sub-Category</span></Link>
+              <Link to={'/createblog'}><span className="menu-title">Create blog</span></Link>
             </span>
           </li>
+          
           <li className="nav-item menu-items">
             <span className="nav-link">
               <span className="menu-icon">
@@ -127,72 +136,6 @@ const Sidebar = () => {
               </span>
           <Link to={'/signup'}><span className="menu-title">Signup</span></Link>
             </span>
-          </li>
-         
-          <li className="nav-item menu-items">
-            <a className="nav-link">
-              <span className="menu-icon">
-                <i className="mdi mdi-table-large"></i>
-              </span>
-              <span className="menu-title">Tables</span>
-            </a>
-          </li>
-          <li className="nav-item menu-items">
-            <a className="nav-link">
-              <span className="menu-icon">
-                <i className="mdi mdi-chart-bar"></i>
-              </span>
-              <span className="menu-title">Charts</span>
-            </a>
-          </li>
-          <li className="nav-item menu-items">
-            <a className="nav-link">
-              <span className="menu-icon">
-                <i className="mdi mdi-contacts"></i>
-              </span>
-              <span className="menu-title">Icons</span>
-            </a>
-          </li>
-          <li className="nav-item menu-items">
-            <a
-              className="nav-link"
-              data-bs-toggle="collapse"
-              aria-expanded="false"
-              aria-controls="auth"
-            >
-              <span className="menu-icon">
-                <i className="mdi mdi-security"></i>
-              </span>
-              <span className="menu-title">User Pages</span>
-              <i className="menu-arrow"></i>
-            </a>
-            {/* <div className="collapse" id="auth">
-              <ul className="nav flex-column sub-menu">
-                <li className="nav-item">
-                  <a className="nav-link">Blank Page</a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link">404</a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link">500</a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link">Login</a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link">Register</a>
-                </li>
-              </ul>
-            </div> */}
-          </li>
-          <li className="nav-item menu-items">
-            <a className="nav-link">
-              <span className="menu-icon">
-                <i className="mdi mdi-file-document-box"></i>
-              </span>
-              <span className="menu-title">Documentation</span>
-            </a>
           </li>
         </ul>
       </nav>

@@ -31,7 +31,6 @@ const Signup = () => {
 
     const secretKey = role === 'admin' ? adminInput : undefined;
 
-
       try {
         const response = await fetch('http://localhost:5110/user/register', {
           method: 'POST',

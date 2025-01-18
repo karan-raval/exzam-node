@@ -58,11 +58,7 @@ const SingleBlog = () => {
             <p className="lead">{blog.description}</p>
           </div>
         </div>
-
-
-      
       </section>
-
       <Footer />
     </>
   );
